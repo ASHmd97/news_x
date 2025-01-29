@@ -4,8 +4,8 @@ import 'package:news_x/home/view/widgets/category_item.dart';
 import 'package:news_x/shared/app_theme.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key});
-
+  const CategoriesScreen({super.key, required this.onSelectedCategory});
+  final void Function(CategoryModel) onSelectedCategory;
   @override
   Widget build(BuildContext context) {
     List<CategoryModel> categoryList = [
@@ -71,9 +71,14 @@ class CategoriesScreen extends StatelessWidget {
                   mainAxisSpacing: 24,
                   childAspectRatio: .9,
                 ),
-                itemBuilder: (context, index) => CategoryItem(
-                  category: categoryList[index],
-                  index: index,
+                itemBuilder: (context, index) => InkWell(
+                  onTap: () {
+                    onSelectedCategory(categoryList[index]);
+                  },
+                  child: CategoryItem(
+                    category: categoryList[index],
+                    index: index,
+                  ),
                 ),
                 itemCount: categoryList.length,
               ),

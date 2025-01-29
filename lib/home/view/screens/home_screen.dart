@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:news_x/category_details/view/screens/category_details.dart';
+import 'package:news_x/home/data/models/category_model.dart';
 import 'package:news_x/home/view/screens/categories_screen.dart';
 import 'package:news_x/home/view/widgets/home_drawer.dart';
 import 'package:news_x/settings/view/screens/settings_screen.dart';
@@ -14,10 +16,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeState extends State<HomeScreen> {
   DrawerItem selectedItem = DrawerItem.categories;
+  CategoryModel? selectedCategory;
+
   void onSelectedItem(DrawerItem item) {
     selectedItem = item;
+    selectedCategory = null;
     setState(() {});
     Navigator.of(context).pop();
+  }
+
+  void onSelectedCategory(CategoryModel category) {
+    selectedCategory = category;
+    setState(() {});
   }
 
   @override
@@ -30,11 +40,20 @@ class _HomeState extends State<HomeScreen> {
         ),
       ),
       child: Scaffold(
-        appBar: AppBar(title: const Text('News App')),
+        appBar: AppBar(
+            title: Text(
+          selectedCategory != null
+              ? selectedCategory!.name
+              : selectedItem == DrawerItem.categories
+                  ? 'News App'
+                  : 'Settings',
+        )),
         drawer: HomeDrawer(onSelectedItem),
-        body: selectedItem == DrawerItem.categories
-            ? const CategoriesScreen()
-            : const SettingsScreen(),
+        body: selectedCategory != null
+            ? CategoryDetails(category: selectedCategory!)
+            : selectedItem == DrawerItem.categories
+                ? CategoriesScreen(onSelectedCategory: onSelectedCategory)
+                : const SettingsScreen(),
       ),
     );
   }
