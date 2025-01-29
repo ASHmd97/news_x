@@ -3,8 +3,8 @@ import 'package:news_x/home/data/models/category_model.dart';
 import 'package:news_x/home/view/widgets/category_item.dart';
 import 'package:news_x/shared/app_theme.dart';
 
-class CategoriesGrid extends StatelessWidget {
-  const CategoriesGrid({super.key});
+class CategoriesScreen extends StatelessWidget {
+  const CategoriesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
