@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_x/home/data/models/category_model.dart';
+import 'package:news_x/news/data/models/news_model.dart';
+import 'package:news_x/news/view/widgets/news_list.dart';
 import 'package:news_x/sources/data/models/source_model.dart';
 import 'package:news_x/sources/view/widgets/sources_tabs.dart';
 
@@ -22,9 +24,20 @@ class _CategoryDetailsState extends State<CategoryDetails> {
         name: 'BBC News $index',
       ),
     );
+    // --------------------------------------- //
+    List<NewsModel> news = List.generate(
+      12,
+      (index) => NewsModel(
+          imageUrl: 'assets/test.png',
+          sourceName: 'BBC news',
+          title: "Why are football's biggest clubs starting a new tournament?",
+          date: '3 hours ago'),
+    );
+    // --------------------------------------- //
     return Column(
       children: [
         SourcesTabs(sources: sources),
+        NewsList(news: news),
       ],
     );
   }

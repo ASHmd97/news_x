@@ -35,12 +35,12 @@ class AppTheme {
         color: white,
       ),
       titleSmall: TextStyle(
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: FontWeight.w400,
         color: black,
       ),
       labelSmall: TextStyle(
-        fontSize: 10,
+        fontSize: 12,
         fontWeight: FontWeight.w400,
         color: gray,
       ),
