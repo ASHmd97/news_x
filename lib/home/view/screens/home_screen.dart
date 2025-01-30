@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:news_x/category_details/view/screens/category_details.dart';
+import 'package:news_x/home/view/screens/category_details.dart';
 import 'package:news_x/home/data/models/category_model.dart';
 import 'package:news_x/home/view/screens/categories_screen.dart';
 import 'package:news_x/home/view/widgets/home_drawer.dart';
