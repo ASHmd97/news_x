@@ -6,13 +6,12 @@ class SourceItem extends StatelessWidget {
       {super.key, required this.sourceName, required this.isSelected});
 
   final String sourceName;
-
   final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
         color: isSelected ? AppTheme.primary : AppTheme.white,
         border: Border.all(color: AppTheme.primary, width: 2),

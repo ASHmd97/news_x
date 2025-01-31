@@ -2,10 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_x/news/data/models/news_model.dart';
 import 'package:news_x/shared/app_theme.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class NewsItem extends StatelessWidget {
   const NewsItem({super.key, required this.newsModel});
-  final NewsModel newsModel;
+  final News newsModel;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -15,7 +16,7 @@ class NewsItem extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: CachedNetworkImage(
-            imageUrl: newsModel.imageUrl,
+            imageUrl: newsModel.urlToImage,
             height: MediaQuery.sizeOf(context).height * 0.26,
             width: double.infinity,
             fit: BoxFit.cover,
@@ -33,7 +34,7 @@ class NewsItem extends StatelessWidget {
           height: 8,
         ),
         Text(
-          newsModel.sourceName,
+          newsModel.source?.name ?? "",
           style: Theme.of(context).textTheme.labelSmall,
         ),
         Text(
@@ -45,7 +46,7 @@ class NewsItem extends StatelessWidget {
         Align(
           alignment: AlignmentDirectional.centerEnd,
           child: Text(
-            newsModel.date,
+            timeago.format(newsModel.publishedAt!),
             style: Theme.of(context).textTheme.labelSmall,
           ),
         ),
