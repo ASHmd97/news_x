@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:news_x/news/data/models/news_model.dart';
+import 'package:news_x/shared/app_theme.dart';
 
 class NewsItem extends StatelessWidget {
   const NewsItem({super.key, required this.newsModel});
@@ -10,11 +12,22 @@ class NewsItem extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.asset(
-          newsModel.imageUrl,
-          height: MediaQuery.sizeOf(context).height * 0.26,
-          width: double.infinity,
-          fit: BoxFit.cover,
+        ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: CachedNetworkImage(
+            imageUrl: newsModel.imageUrl,
+            height: MediaQuery.sizeOf(context).height * 0.26,
+            width: double.infinity,
+            fit: BoxFit.cover,
+            placeholder: (context, url) => const Center(
+              child: CircularProgressIndicator(
+                color: AppTheme.primary,
+              ),
+            ),
+            errorWidget: (context, url, error) => const Center(
+              child: Icon(Icons.image_not_supported),
+            ),
+          ),
         ),
         const SizedBox(
           height: 8,

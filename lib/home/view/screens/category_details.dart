@@ -28,7 +28,8 @@ class _CategoryDetailsState extends State<CategoryDetails> {
     List<NewsModel> news = List.generate(
       12,
       (index) => NewsModel(
-          imageUrl: 'assets/test.png',
+          imageUrl:
+              'https://letsenhance.io/static/a31ab775f44858f1d1b80ee51738f4f3/11499/EnhanceAfter.jpg',
           sourceName: 'BBC news',
           title: "Why are football's biggest clubs starting a new tournament?",
           date: '3 hours ago'),
