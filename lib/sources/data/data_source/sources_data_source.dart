@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:news_x/shared/api_constant.dart';
+import 'package:news_x/sources/data/models/source_model.dart';
 import 'package:news_x/sources/data/models/sources_response.dart';
 
 class SourcesDataSource {
-  Future<SourcesResponse> getSources(String categoryID) async {
+  Future<List<SourceModel>> getSources(String categoryID) async {
     final uri = Uri.https(APIConstant.baseUrl, APIConstant.sourcesEndpoint, {
       'apiKey': APIConstant.apiKey,
       'category': categoryID,
@@ -12,6 +13,12 @@ class SourcesDataSource {
 
     final response = await http.get(uri);
     final json = jsonDecode(response.body);
-    return SourcesResponse.fromJson(json);
+    final sourcesResponse = SourcesResponse.fromJson(json);
+
+    if (sourcesResponse.status == 'ok' && sourcesResponse.sources.isNotEmpty) {
+      return sourcesResponse.sources;
+    } else {
+      throw Exception('something ware wrong');
+    }
   }
 }

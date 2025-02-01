@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_x/sources/data/data_source/sources_data_source.dart';
 import 'package:news_x/sources/data/models/source_model.dart';
+import 'package:news_x/sources/data/repositories/sources_repository.dart';
 
 class SourcesViewModel with ChangeNotifier {
-  final dateSource = SourcesDataSource();
+  final sourcesRepo = SourcesRepository();
   bool isLoading = false;
   String? errorMessage;
   List<SourceModel> sources = [];
@@ -13,17 +13,11 @@ class SourcesViewModel with ChangeNotifier {
     notifyListeners();
 
     try {
-      final response = await dateSource.getSources(categoryId);
-
-      if (response.status == 'ok' && response.sources.isNotEmpty) {
-        sources = response.sources;
-      } else {
-        errorMessage = 'something ware wrong';
-      }
+      sources = await sourcesRepo.getSources(categoryId);
     } catch (e) {
       errorMessage = e.toString();
     }
-    
+
     isLoading = false;
     notifyListeners();
   }

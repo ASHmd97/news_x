@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:news_x/news/data/data_source/news_data_source.dart';
 import 'package:news_x/news/data/models/news_model.dart';
+import 'package:news_x/news/data/repositories/news_repository.dart';
 
 class NewsViewModel with ChangeNotifier {
-  final dataSource = NewsDataSource();
+  final newsRepo = NewsRepository();
   bool isLoading = false;
   String? errorMessage;
   List<News> news = [];
@@ -11,14 +11,9 @@ class NewsViewModel with ChangeNotifier {
   Future<void> getNews(String sourceId) async {
     isLoading = true;
     notifyListeners();
-    final response = await dataSource.getNews(sourceId);
 
     try {
-      if (response.status == 'ok') {
-        news = response.articles;
-      } else {
-        errorMessage = 'Failed To Get The Articles';
-      }
+      news = await newsRepo.getNews(sourceId);
     } catch (e) {
       errorMessage = e.toString();
     }
