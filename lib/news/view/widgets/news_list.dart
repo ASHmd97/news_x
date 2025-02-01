@@ -16,7 +16,7 @@ class NewsList extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const LoadingIndicator();
         } else if (snapshot.hasError) {
-          return ErrorIndicator(snapshot.error.toString());
+          return ErrorIndicator(message: snapshot.error.toString());
         } else {
           List<News> news = snapshot.data?.articles ?? [];
           return Padding(
