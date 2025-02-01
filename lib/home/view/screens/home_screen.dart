@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:news_x/home/view/screens/category_details.dart';
+
 import 'package:news_x/home/data/models/category_model.dart';
 import 'package:news_x/home/view/screens/categories_screen.dart';
 import 'package:news_x/home/view/widgets/home_drawer.dart';
 import 'package:news_x/settings/view/screens/settings_screen.dart';
 import 'package:news_x/shared/app_theme.dart';
+import 'package:news_x/sources/view/screens/sources_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -50,7 +51,7 @@ class _HomeState extends State<HomeScreen> {
         )),
         drawer: HomeDrawer(onSelectedItem),
         body: selectedCategory != null
-            ? CategoryDetails(category: selectedCategory!)
+            ? SourcesScreen(category: selectedCategory!)
             : selectedItem == DrawerItem.categories
                 ? CategoriesScreen(onSelectedCategory: onSelectedCategory)
                 : const SettingsScreen(),

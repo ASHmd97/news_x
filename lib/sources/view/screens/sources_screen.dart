@@ -6,15 +6,28 @@ import 'package:news_x/sources/view/widgets/sources_tabs.dart';
 import 'package:news_x/sources/view_model/sources_view_model.dart';
 import 'package:provider/provider.dart';
 
-class CategoryDetails extends StatelessWidget {
-  const CategoryDetails({super.key, required this.category});
+class SourcesScreen extends StatefulWidget {
+  const SourcesScreen({super.key, required this.category});
 
   final CategoryModel category;
 
   @override
+  State<SourcesScreen> createState() => _SourcesScreenState();
+}
+
+class _SourcesScreenState extends State<SourcesScreen> {
+  final viewModel = SourcesViewModel();
+
+  @override
+  void initState() {
+    viewModel.getSources(widget.category.id);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => SourcesViewModel()..getSources(category.id),
+      create: (context) => viewModel,
       child: Consumer<SourcesViewModel>(
         builder: (_, viewModel, __) {
           if (viewModel.isLoading) {
