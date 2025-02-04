@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_x/home/data/models/category_model.dart';
 import 'package:news_x/shared/widgets/error_indicator.dart';
 import 'package:news_x/shared/widgets/loading_indicator.dart';
 import 'package:news_x/sources/view/widgets/sources_tabs.dart';
+import 'package:news_x/sources/view_model/sources_state.dart';
 import 'package:news_x/sources/view_model/sources_view_model.dart';
-import 'package:provider/provider.dart';
 
 class SourcesScreen extends StatefulWidget {
   const SourcesScreen({super.key, required this.category});
@@ -26,16 +27,18 @@ class _SourcesScreenState extends State<SourcesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return BlocProvider(
       create: (context) => viewModel,
-      child: Consumer<SourcesViewModel>(
-        builder: (_, viewModel, __) {
-          if (viewModel.isLoading) {
+      child: BlocBuilder<SourcesViewModel, SourcesState>(
+        builder: (context, state) {
+          if (state is GetSourcesLoading) {
             return const LoadingIndicator();
-          } else if (viewModel.errorMessage != null) {
-            return ErrorIndicator(message: viewModel.errorMessage!);
+          } else if (state is GetSourcesError) {
+            return ErrorIndicator(message: state.message);
+          } else if (state is GetSourcesSuccess) {
+            return SourcesTabs(sources: state.sources);
           } else {
-            return SourcesTabs(sources: viewModel.sources);
+            return const SizedBox();
           }
         },
       ),
@@ -55,3 +58,15 @@ class _SourcesScreenState extends State<SourcesScreen> {
 //           return const SizedBox();
 //         }
 //       },
+
+// child: Consumer<SourcesViewModel>(
+//         builder: (_, viewModel, __) {
+//           if (viewModel.isLoading) {
+//             return const LoadingIndicator();
+//           } else if (viewModel.errorMessage != null) {
+//             return ErrorIndicator(message: viewModel.errorMessage!);
+//           } else {
+//             return SourcesTabs(sources: viewModel.sources);
+//           }
+//         },
+//       ),

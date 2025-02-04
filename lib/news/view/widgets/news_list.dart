@@ -1,12 +1,14 @@
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_x/news/data/models/news_model.dart';
 import 'package:news_x/news/view/widgets/news_item.dart';
+import 'package:news_x/news/view_model/news_state.dart';
 
 import 'package:news_x/news/view_model/news_view_model.dart';
 import 'package:news_x/shared/widgets/error_indicator.dart';
 import 'package:news_x/shared/widgets/loading_indicator.dart';
 
-import 'package:provider/provider.dart';
 
 class NewsList extends StatefulWidget {
   const NewsList({super.key, required this.sourceId});
@@ -23,16 +25,16 @@ class _NewsListState extends State<NewsList> {
   Widget build(BuildContext context) {
     viewModel.getNews(widget.sourceId);
 
-    return ChangeNotifierProvider(
+    return BlocProvider(
       create: (context) => viewModel,
-      child: Consumer<NewsViewModel>(
-        builder: (context, viewModel, child) {
-          if (viewModel.isLoading) {
+      child: BlocBuilder<NewsViewModel, NewsState>(
+        builder: (_, state) {
+          if (state is GetNewsLoading) {
             return const LoadingIndicator();
-          } else if (viewModel.errorMessage != null) {
-            return ErrorIndicator(message: viewModel.errorMessage!);
-          } else {
-            List<News> news = viewModel.news;
+          } else if (state is GetNewsError) {
+            return ErrorIndicator(message: state.errorMessage);
+          } else if (state is GetNewsSuccess) {
+            List<News> news = state.newsList;
             return Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 12.0, horizontal: 18),
@@ -45,6 +47,8 @@ class _NewsListState extends State<NewsList> {
                     const SizedBox(height: 16),
               ),
             );
+          } else {
+            return const SizedBox();
           }
         },
       ),
